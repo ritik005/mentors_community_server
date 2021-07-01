@@ -25,7 +25,7 @@ const signin = async (req, res) => {
 }
 
 const signup = async (req, res) => {
-  const { email, password, confirmPassword, firstname, lastname } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -36,12 +36,12 @@ const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const result = await User.create({ email, password: hashedPassword, name: `${firstname} ${lastname}` });
+    const result = await User.create({name, email, password: hashedPassword});
 
     const token = jwt.sign({ email: result.email, id: result.id }, process.env.JWT_PRIVATE_KEY, { expiresIn: "1h" });
 
     res.status(200).json({ result, token });
-    
+
   } catch (error) {
     res.status(404).json({ message: "Something went wrong" });
   }
