@@ -13,6 +13,7 @@ app.use(cors());
 
 // Routing 
 app.use('/api/user', require('./routes/api/user'));
+app.use('/api/post', require('./routes/api/post'));
 
 app.listen(PORT, (err) => {
  if(err){
